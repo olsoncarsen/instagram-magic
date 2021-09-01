@@ -13,6 +13,8 @@ ATTEMPT section
     username: hello
     first_name: dmitry someone
     opt_into_one_tap: false
+		seamless_login_enabled: 1
+		client_id: YS-wNwAEAAET6pxbasLHJ_v96mXk
 
     INVALID DATA RESPONSE:
 			{
@@ -53,3 +55,87 @@ ATTEMPT section
 				"status":"ok",
 				"error_type":"form_validation_error"
 			}
+
+			VALID DATA RESPONSE:
+			{
+				"account_created":false,
+				"dryrun_passed":true,
+				"username_suggestions":[
+					"dmitrygashlov",
+					"dmitrygashlov1",
+					"dmitrygashlov53",
+					"dmitrygashlov858",
+					"dmitrygashlov6600",
+					"dmitrygashlov5",
+					"dmitrygashlov42",
+					"dmitrygashlov688",
+					"dmitrygashlov2313",
+					"dmitrygashlov9"
+				],
+				"status":"ok"
+			}
+      
+-------------------------------------------------------------------------------------
+URL:
+  https://www.instagram.com/accounts/emailsignup/
+Response Headers:
+  set-cookie: csrftoken=GepaTuESHlBRwXH9NEUENxaBxnLYPnbg; Domain=.instagram.com; expires=Wed, 31-Aug-2022 16:54:44 GMT; Max-Age=31449600; Path=/; Secure
+-------------------------------------------------------------------------------------
+URL:
+	https://www.instagram.com/accounts/web_create_ajax/attempt/
+DATA:
+	email: somebodys@mail.ru
+	enc_password: #PWD_INSTAGRAM_BROWSER:10:1630519273:AdpQAIzlT91dKPeWlfm04rzA/0JCjcNmpBEW3WivW9ak2ilj0VUAHHnoPsIAGppRax0+RImIfCs6VJvjhMtwseJtxbLXjob35rVGknR2qfd+8DaTTEvvP5r4UeUB7eYumvHfTzQJWfFrMP9p0LT2
+	username: somebodysnamelogin
+	first_name: Dmitry Gashlov
+	client_id: YS-wNwAEAAET6pxbasLHJ_v96mXk  // mid cookie
+	seamless_login_enabled: 1
+	opt_into_one_tap: false
+
+-------------------------------------------------------------------------------------
+URL:
+	https://www.instagram.com/web/consent/check_age_eligibility/
+DATA:
+	day: 6
+	month: 9
+	year: 1999
+RESPONSE:
+	{
+		"eligible_to_register":true,
+		"parental_consent_required":false,
+		"is_supervised_user":false,
+		"status":"ok"
+	}
+
+-------------------------------------------------------------------------------------
+URL:
+	https://i.instagram.com/api/v1/accounts/send_verify_email/
+DATA:
+	device_id: YS-wNwAEAAET6pxbasLHJ_v96mXk // mid cookie
+	email: somebodys@mail.ru
+
+-------------------------------------------------------------------------------------
+URL:
+	https://i.instagram.com/api/v1/accounts/check_confirmation_code/
+DATA:
+	code: 123123
+	device_id: YS-wNwAEAAET6pxbasLHJ_v96mXk // mid cookie
+	email: somebodys@mail.ru	
+
+-------------------------------------------------------------------------------------
+URL:
+	https://www.instagram.com/accounts/web_create_ajax/
+DATA:
+	email: maryhardy996@gmail.com
+	enc_password: #PWD_INSTAGRAM_BROWSER:10:1630525393:AdpQABmSPw90SXEKklLWM21BhcXTpdDsLaqa4WtHIujqQ6kNoOwsRqt+ey4f8Hs1tSvE5pbHL7h15BIfm0mtV/Q/nnJLCOsoLWH7Ew/4/uXT4MADsw5uaHv3yiBnDUDViw0vhhya2C+Qiy6ZN+k9Z7ZSWDE=
+	username: magamagamedov1488
+	first_name: Maga Magamedov
+	month: 9
+	day: 6
+	year: 1996
+	client_id: YS-wNwAEAAET6pxbasLHJ_v96mXk
+	seamless_login_enabled: 1
+	tos_version: row // I don't know what does it mean
+	force_sign_up_code: GjTnvLel // TODO: I need to figure out what does this code mean
+INVALID RESPONSE CODE: 400
+
