@@ -1,125 +1,99 @@
 import requests
 import json
 
-def get_initial_cookies():
-  s = requests.Session()
-  url = 'https://www.instagram.com/accounts/emailsignup/' 
-  headers = {
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
-  }
-  r = s.get(url, headers=headers)
-  cookies = {
-    'csrftoken': r.cookies['csrftoken'],
-    'mid': r.cookies['mid'],
-    'ig_did': r.cookies['ig_did'],
-    'ig_nrcb': r.cookies['ig_nrcb'],
-  }
-  print(cookies)
-  return r.content
+class InstagramBot:
+  def __init__(self):
+    self.session = requests.Session()
+    self.session.headers.update({
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
+    })
 
-def attempt():
-  s = requests.Session()
-  url = 'https://www.instagram.com/accounts/web_create_ajax/attempt/' 
-  cookies = {
-    'ig_did': '73BA5476-FCF9-40E2-B51E-1BC08E78E28B',
-    'ig_nrcb': '1',
-    'csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-    'mid': 'YS5chQAEAAF3m0_fNMUWgYMz5df7',
-  } 
+    self.email = 'ervinsmith1488@gmail.com'
+    self.username = 'sarichev_121212'
+    self.first_name = 'Dmitry Konovalov'
+    self.password = '#PWD_INSTAGRAM_BROWSER:10:1630703426:AV1QAAWNJhYppwTf5JZxt0vr89oUNIArCbzsw6m/KCaARQgL4Ep/doi6+jsnGqAbtutf6jumuowIbezx/fLkrt9NwxnteY0Vu/bZ7rqGjtj5a3tc10OhZkqb67aIKXSvcG4fWIq8qfvgUcTTjVkB+m7wFGk='
+    self.signup_code = '' 
 
-  data = {
-      'email': 'jskdjdsfjsd@ksdjf.ru',
-      'enc_password': '#PWD_INSTAGRAM_BROWSER:10:1630432041:AQpQAK2NpjpV6rUaB/XL/4Wio/cRGlY5mJ3Esqb6ZDYqn3kPPgZm/zgw5pw7eP6bxyS/gWzgv8ypFVJSi8fhNJKztuP7ih5MVAWHzzve/A7PBY8XLpH6ELPiHK4RjZsmcsaLTKsJcdMC',
-      'username': 'sdkjsdkfjsdf',
-      'first_name': 'dmitry someone',
-      'client_id': 'YS5chQAEAAF3m0_fNMUWgYMz5df7',
+  def getInitialCookies(self):
+    url = 'https://www.instagram.com/accounts/emailsignup/' 
+    response = self.session.get(url) 
+    print('my session ', self.session.cookies)
+    self.session.headers.update({
+      'x-csrftoken': self.session.cookies['csrftoken'],
+    })
+    return response
+
+  def attempt(self):
+    url = 'https://www.instagram.com/accounts/web_create_ajax/attempt/' 
+    data = {
+      'email': self.email,
+      'enc_password': self.password,
+      'username': self.username,
+      'first_name': self.first_name,
+      'client_id': self.session.cookies['mid'],
       'opt_into_one_tap': False,
       'seamless_login_enabled': '1',
-  }
+    }
+    response = self.session.post(url, data=data)
+    return response
 
-  headers = {
-    'cookie': 'ig_did=73BA5476-FCF9-40E2-B51E-1BC08E78E28B; ig_nrcb=1; csrftoken=WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw; mid=YS5chQAEAAF3m0_fNMUWgYMz5df7',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
-    'x-csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-  }
+  def checkAgeAbility(self):
+    url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/' 
+    data = {
+      'day': 6,
+      'month': 9,
+      'year': 1996,
+    }
+    response = self.session.post(url, data=data)
+    return response
 
-  r = s.post(url, cookies=cookies, data=data, headers=headers)
-  print(r.content)
-  return r.content
+  def sendVerifyEmail(self):
+    url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/' 
+    data = {
+      'device_id': self.session.cookies['mid'],
+      'email': self.email,
+    }
+    response = self.session.post(url, data=data)
+    return response
 
-def check_age_ability():
-  s = requests.Session()
-  url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/' 
-
-  cookies = {
-    'ig_did': '73BA5476-FCF9-40E2-B51E-1BC08E78E28B',
-    'ig_nrcb': '1',
-    'csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-    'mid': 'YS5chQAEAAF3m0_fNMUWgYMz5df7',
-  } 
-
-  headers = {
-    'cookie': 'ig_did=73BA5476-FCF9-40E2-B51E-1BC08E78E28B; ig_nrcb=1; csrftoken=WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw; mid=YS5chQAEAAF3m0_fNMUWgYMz5df7',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
-    'x-csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-  }
-  
-  data = {
-    'day': '6',
-    'month': '9',
-    'year': '1999',
-  }
-  r = s.post(url, cookies=cookies, data=data, headers=headers)
-  print(r.content)
-  return r.content
+  def checkConfirmationCode(self): 
+    url = 'https://i.instagram.com/api/v1/accounts/check_confirmation_code/' 
+    confirmation_code = input('Enter your confirmation code: ')
+    data = {
+      'code': confirmation_code,
+      'device_id': self.session.cookies['mid'],
+      'email': self.email,
+    }
+    response = self.session.post(url, data)
+    data = response.json()
+    self.signup_code = data['signup_code']
     
-def send_verify_email():
-  s = requests.Session()
-  url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/' 
 
-  cookies = {
-    'ig_did': '73BA5476-FCF9-40E2-B51E-1BC08E78E28B',
-    'ig_nrcb': '1',
-    'csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-    'mid': 'YS5chQAEAAF3m0_fNMUWgYMz5df7',
-  } 
+    return response
 
-  headers = {
-    'cookie': 'ig_did=73BA5476-FCF9-40E2-B51E-1BC08E78E28B; ig_nrcb=1; csrftoken=WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw; mid=YS5chQAEAAF3m0_fNMUWgYMz5df7',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
-    'x-csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-  }
-  
-  data = {
-    'device_id': 'YS5chQAEAAF3m0_fNMUWgYMz5df7',
-    'email': 'someemail@hui.com',
-  }
-  r = s.post(url, cookies=cookies, data=data, headers=headers)
-  print(r.content)
-  return r.content
-  
-def check_confirmation_code():
-  s = requests.Session()
-  url = 'https://i.instagram.com/api/v1/accounts/check_confirmation_code/' 
+  def webCreateAjax(self):
+    url = 'https://www.instagram.com/accounts/web_create_ajax/'
+    data = {
+      'email': self.email,
+      'password': self.password,
+      'username': self.username,
+      'first_name': self.first_name,
+      'month': 9,
+      'day': 10,
+      'year': 1999,
+      'client_id': self.session.cookie['mid'],
+      'seamless_login_enabled': 1,
+      'tos_version': 'row',
+      'force_signup_code': self.signup_code,
+    }
+    response = self.session.post(url, data=data)
+    return response
 
-  cookies = {
-    'ig_did': '73BA5476-FCF9-40E2-B51E-1BC08E78E28B',
-    'ig_nrcb': '1',
-    'csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-    'mid': 'YS5chQAEAAF3m0_fNMUWgYMz5df7',
-  } 
+  def signUp(self):
+    self.getInitialCookies()
+    self.attempt()
+    self.checkAgeAbility()
+    self.sendVerifyEmail()
+    self.checkConfirmationCode()
+    response = self.webCreateAjax()
 
-  headers = {
-    'cookie': 'ig_did=73BA5476-FCF9-40E2-B51E-1BC08E78E28B; ig_nrcb=1; csrftoken=WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw; mid=YS5chQAEAAF3m0_fNMUWgYMz5df7',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
-    'x-csrftoken': 'WGfJ3y5Pth68IzmVTdYRjbhNu8p4vWrw',
-  }
-  
-  data = {
-    'code': '123123',
-    'device_id': 'YS5chQAEAAF3m0_fNMUWgYMz5df7',
-    'email': 'someemail@hui.com',
-  }
-  r = s.post(url, cookies=cookies, data=data, headers=headers)
-  print(r.content)
-  return r.content

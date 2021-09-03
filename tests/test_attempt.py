@@ -1,14 +1,18 @@
 import logging
 import unittest
-from instagram_magic.instagrambot import attempt
-from instagram_magic.instagrambot import get_initial_cookies 
+from instagram_magic.instagrambot import InstagramBot 
 
 class TestAttempt(unittest.TestCase): 
   def test_attempt(self):
-    result = attempt()
+    bot = InstagramBot()
+    bot.getInitialCookies()
+    #print('bots cookies ', bot.session.cookies)
+    result = bot.attempt()
+    print(result.content)
+    result = bot.checkAgeAbility()
+    print(result.content)
+    result = bot.sendVerifyEmail()
+    print(result.content)
+    result = bot.checkConfirmationCode()
+    print(result.content)
     assert(1 == 1)
-  def test_get_initial_cookies(self):
-    get_initial_cookies()
-    assert(1 == 1)
-  
-    
