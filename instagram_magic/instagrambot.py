@@ -12,7 +12,15 @@ class InstagramBot:
     self.username = 'sarichev_121212'
     self.first_name = 'Dmitry Konovalov'
     self.password = '#PWD_INSTAGRAM_BROWSER:10:1630703426:AV1QAAWNJhYppwTf5JZxt0vr89oUNIArCbzsw6m/KCaARQgL4Ep/doi6+jsnGqAbtutf6jumuowIbezx/fLkrt9NwxnteY0Vu/bZ7rqGjtj5a3tc10OhZkqb67aIKXSvcG4fWIq8qfvgUcTTjVkB+m7wFGk='
-    self.signup_code = '' 
+    self.signup_code = 'csrHnwMI' 
+    self.session.cookies.set("csrftoken", "pfEPUZ0GdCgcB5eDEatfv9xv9q127CRY", domain=".instagram.com")
+    self.session.cookies.set("ig_did", "044E87C4-BF92-4BDD-B830-1C52F60CAB79", domain=".instagram.com")
+    self.session.cookies.set("ig_nrcb", "1", domain=".instagram.com")
+    self.session.cookies.set("mid", "YTKRgwAEAAHALoyLRbj7Bdu9CMWP", domain=".instagram.com")
+
+    self.session.headers.update({
+      'x-csrftoken': self.session.cookies['csrftoken'],
+    })
 
   def getInitialCookies(self):
     url = 'https://www.instagram.com/accounts/emailsignup/' 
@@ -66,8 +74,8 @@ class InstagramBot:
     }
     response = self.session.post(url, data)
     data = response.json()
+    print('SIGNUP_CODE!!! ', data['signup_code'])
     self.signup_code = data['signup_code']
-    
 
     return response
 
@@ -75,16 +83,16 @@ class InstagramBot:
     url = 'https://www.instagram.com/accounts/web_create_ajax/'
     data = {
       'email': self.email,
-      'password': self.password,
+      'enc_password': self.password,
       'username': self.username,
       'first_name': self.first_name,
       'month': 9,
       'day': 10,
       'year': 1999,
-      'client_id': self.session.cookie['mid'],
+      'client_id': self.session.cookies['mid'],
       'seamless_login_enabled': 1,
       'tos_version': 'row',
-      'force_signup_code': self.signup_code,
+      'force_sign_up_code': self.signup_code,
     }
     response = self.session.post(url, data=data)
     return response
@@ -96,4 +104,3 @@ class InstagramBot:
     self.sendVerifyEmail()
     self.checkConfirmationCode()
     response = self.webCreateAjax()
-

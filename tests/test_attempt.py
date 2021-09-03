@@ -6,7 +6,7 @@ class TestAttempt(unittest.TestCase):
   def test_attempt(self):
     bot = InstagramBot()
     bot.getInitialCookies()
-    #print('bots cookies ', bot.session.cookies)
+    print('bots cookies ', bot.session.cookies)
     result = bot.attempt()
     print(result.content)
     result = bot.checkAgeAbility()
@@ -14,5 +14,7 @@ class TestAttempt(unittest.TestCase):
     result = bot.sendVerifyEmail()
     print(result.content)
     result = bot.checkConfirmationCode()
+    print(result.content)
+    result = bot.webCreateAjax()
     print(result.content)
     assert(1 == 1)
