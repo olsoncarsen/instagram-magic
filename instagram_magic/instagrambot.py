@@ -1,5 +1,10 @@
 import requests
 import json
+from requests_toolbelt import MultipartEncoder
+import os
+import random, string
+import base64
+import datetime
 
 class InstagramBot:
   def __init__(self):
@@ -17,6 +22,10 @@ class InstagramBot:
     self.session.cookies.set("ig_did", "044E87C4-BF92-4BDD-B830-1C52F60CAB79", domain=".instagram.com")
     self.session.cookies.set("ig_nrcb", "1", domain=".instagram.com")
     self.session.cookies.set("mid", "YTKRgwAEAAHALoyLRbj7Bdu9CMWP", domain=".instagram.com")
+    self.session.cookies.set("ds_user_id", "49302523346", domain=".instagram.com")
+
+    self.session.cookies.set("rur", "ODN\05449302523346\0541662401186:01f7b25b1742a6e787ed4faf5edcc2d215b8d3f79187b843f1ba661a6b761e36ea29f83f", domain=".instagram.com")
+    self.session.cookies.set("sessionid", "49302523346%3AY4ohX4Vs67sDAo%3A22", domain=".instagram.com")
 
     self.session.headers.update({
       'x-csrftoken': self.session.cookies['csrftoken'],
@@ -104,3 +113,56 @@ class InstagramBot:
     self.sendVerifyEmail()
     self.checkConfirmationCode()
     response = self.webCreateAjax()
+
+  def igSsoUsers(self):
+    url = 'https://www.instagram.com/fxcal/ig_sso_users/'
+    response = self.session.post(url)
+    print(self.session.cookies)
+    return response
+
+  def changeProfilePhoto(self, photo_url):
+    url = 'https://www.instagram.com/accounts/web_change_profile_picture/'
+    profile_pic = open(photo_url, 'rb').read()
+    fields = {
+      'profile_pic': ('cat1.jpeg', profile_pic, 'image/jpg'),
+    }
+    boundary = '----WebKitFormBoundary' + ''.join(random.sample(string.ascii_letters + string.digits, 16))
+    m = MultipartEncoder(fields=fields, boundary=boundary)
+    self.session.headers.update({
+      'Content-Disposition': 'form-data; name="profile_pic"; filename="cat1.jpeg"',
+      'Content-Type': m.content_type 
+    })
+
+    response = self.session.post(url, data=m) 
+    print(self.session.cookies)
+    return response
+
+  def editProfile(self, bio_text):
+    url = 'https://www.instagram.com/accounts/edit/' 
+    data = {
+      'first_name': self.first_name, 
+      'email': self.email,
+      'username': self.username,
+      'phone_number': '',
+      'biography': bio_text,
+      'external_url': '',
+      'chaining_enabled': 'on',
+    }
+    response = self.session.post(url, data=data)
+    return response
+
+  def uploadPost(self, photoUrl):
+    dt = datetime.datetime.now()
+    upload_id = int(dt.timestamp() * 1000) 
+    url='https://i.instagram.com/rupload_igphoto/fb_uploader_'+str(upload_id)
+    self.session.headers.update({
+      'x-entity-name': 'fb_uploader_'+str(upload_id),
+      'offset': '1',
+      'x-instagram-rupload-params': '{"media_type":1,"upload_id":"'+str(upload_id)+'","upload_media_height":1079,"upload_media_width":1080}',
+    })
+    print(str(upload_id))
+    profile_pic = open(photoUrl, 'rb').read()
+
+    response = self.session.post(url, data=profile_pic)
+    print(response.request.headers)
+    return response

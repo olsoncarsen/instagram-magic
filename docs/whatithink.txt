@@ -139,3 +139,25 @@ DATA:
 	force_sign_up_code: GjTnvLel // TODO: I need to figure out what does this code mean
 INVALID RESPONSE CODE: 400
 
+
+-------------------------------------------------------------------------------------
+URL:
+ https://www.instagram.com/fxcal/ig_sso_users/ 
+
+GET request where i can get these headers:
+  
+  set-cookie: csrftoken=eQsEk9E3tWFwuLqEs7x6wSocwBFIjpHz; Domain=.instagram.com; expires=Sun, 04-Sep-2022 17:20:40 GMT; Max-Age=31449600; Path=/; Secure
+  set-cookie: rur="ODN\05449302523346\0541662398440:01f7e0eb6ca6a93b315ef79359ce35387e27936bf267efe005b7269bf86d9690f1007279"; Domain=.instagram.com; HttpOnly; Path=/; Secure
+  set-cookie: ds_user_id=49302523346; Domain=.instagram.com; expires=Sat, 04-Dec-2021 17:20:40 GMT; Max-Age=7776000; Path=/; Secure
+
+cookie: mid=YSkV0gAEAAFkjCW7Z3pqrnUKK4pH; ig_did=0C8D78DC-8AC6-45E4-9F2D-A04447649547; ig_nrcb=1; csrftoken=eQsEk9E3tWFwuLqEs7x6wSocwBFIjpHz; ds_user_id=49302523346; sessionid=49302523346%3AY4ohX4Vs67sDAo%3A22; rur="ODN\05449302523346\0541662398440:01f7e0eb6ca6a93b315ef79359ce35387e27936bf267efe005b7269bf86d9690f1008f2f"
+
+
+TODO: we need to know where I can get session ID 
+
+-------------------------------------------------------------------------------------
+URL:
+  https://www.instagram.com/accounts/web_change_profile_picture/
+
+DATA:
+  profile_pic: (binary)
