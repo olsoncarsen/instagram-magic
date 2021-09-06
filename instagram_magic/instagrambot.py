@@ -5,6 +5,7 @@ import os
 import random, string
 import base64
 import datetime
+import pprint
 
 class InstagramBot:
   def __init__(self):
@@ -182,10 +183,26 @@ class InstagramBot:
       'trustedDeviceRecords': {},
     }
     response = self.session.post(url, data=data)
-    print(self.session.cookies)
     self.session.headers.update({
       'x-csrftoken': self.session.cookies['csrftoken'],
     })
-    
+    print('HEADERS', response.headers) 
     return response
 
+  def configure(self, upload_id, caption):
+    url = 'https://i.instagram.com/api/v1/media/configure/'
+    self.session.headers.update({
+      'x-ig-www-claim': '0', #TODO: you can get this from signup or login
+    })
+    data = {
+      'source_type': 'library', 
+      'caption': caption,
+      'upcoming_event': '',
+      'upload_id': str(upload_id),
+      'usertags': '',
+      'custom_accessibility_caption': '',
+      'disable_comments': '0',
+    }
+
+    response = self.session.post(url, data=data)
+    return response
