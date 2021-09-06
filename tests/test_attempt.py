@@ -8,4 +8,7 @@ class TestAttempt(unittest.TestCase):
 
     result = bot.login()
     print(result.content)
+    result = bot.uploadPost('/Users/dmitrygashilov/Downloads/dog.jpg')
+    print(result.content) 
+
     assert(1 == 1)

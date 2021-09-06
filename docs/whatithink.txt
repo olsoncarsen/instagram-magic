@@ -187,3 +187,17 @@ DATA:
 RESPONSE:
   {"user":true,"userId":"49302523346","authenticated":true,"oneTapPrompt":true,"status":"ok"}'
   
+-------------------------------------------------------------------------------------
+URL:
+  https://i.instagram.com/api/v1/media/configure/
+DATA:
+  source_type: library
+  caption: It's my second pet
+  upcoming_event: 
+  upload_id: 1630954197840
+  usertags: 
+  custom_accessibility_caption: 
+  disable_comments: 0
+RESPONSE:
+ media: {taken_at: 1630954217, pk: "2656959012740387280", id: "2656959012740387280_49302523346",…}
+ status: "ok"

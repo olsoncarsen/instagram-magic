@@ -153,18 +153,22 @@ class InstagramBot:
 
   def uploadPost(self, photoUrl):
     dt = datetime.datetime.now()
-    upload_id = int(dt.timestamp() * 1000) 
+    upload_id = int(dt.timestamp() * 10000) 
     url='https://i.instagram.com/rupload_igphoto/fb_uploader_'+str(upload_id)
-    self.session.headers.update({
-      'x-entity-name': 'fb_uploader_'+str(upload_id),
-      'offset': '1',
-      'x-instagram-rupload-params': '{"media_type":1,"upload_id":"'+str(upload_id)+'","upload_media_height":1079,"upload_media_width":1080}',
-    })
-    print(str(upload_id))
+
     profile_pic = open(photoUrl, 'rb').read()
 
+    self.session.headers.update({
+      'Content-Length': str(len(profile_pic)),
+      #'content-length': '1',
+      'x-entity-length': str(len(profile_pic)),
+      'x-entity-name': 'fb_uploader_'+str(upload_id),
+      'offset': '0',
+      'x-instagram-rupload-params': '{"media_type":1,"upload_id":"'+str(upload_id)+'","upload_media_height":1080,"upload_media_width":1080}',
+    })
+
+    print(str(upload_id))
     response = self.session.post(url, data=profile_pic)
-    print(response.request.headers)
     return response
 
   def login(self):

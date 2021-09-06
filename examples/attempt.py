@@ -1,3 +1,3 @@
-from .instagram_magic.instagrambot import attempt 
+from instagram_magic.instagrambot import InstagramBot 
 
-attempt()
+bot = InstagramBot()
