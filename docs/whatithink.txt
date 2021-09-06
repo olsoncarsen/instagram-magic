@@ -161,3 +161,29 @@ URL:
 
 DATA:
   profile_pic: (binary)
+
+-------------------------------------------------------------------------------------
+// this works really bad, may be we should not implement it 
+URL:
+  https://www.instagram.com/accounts/account_recovery_send_ajax/
+DATA:
+  email_or_username: maryhardy996@gmail.com
+  recaptcha_challenge_field: 
+  flow: 
+  app_id: 
+  source_account_id: 
+-------------------------------------------------------------------------------------
+// this request gives us session_id cookie
+URL:
+  https://www.instagram.com/accounts/login/ajax/
+DATA:
+  username: sarichev_121212
+  enc_password: #PWD_INSTAGRAM_BROWSER:10:1630949284:AfxQAART9MOKGTwWIDUXUQqCQpoUQfAg0lPQQ3E6jpR1hJ4YOJ8eugc0t9OTW9PGmOxSmid4DXNYgl5RdgEpnJcKF6/tKiJojkL/9MOvRSLaso2aYWQu7BIY4wJQDQJ2rE2CHYITNI3+xcQU26vs
+  queryParams: {}
+  optIntoOneTap: false
+  stopDeletionNonce: 
+  trustedDeviceRecords: {}
+
+RESPONSE:
+  {"user":true,"userId":"49302523346","authenticated":true,"oneTapPrompt":true,"status":"ok"}'
+  
