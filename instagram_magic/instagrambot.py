@@ -14,24 +14,6 @@ class InstagramBot:
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
     })
 
-    self.email = 'ervinsmith1488@gmail.com'
-    self.username = 'sarichev_121212'
-    self.first_name = 'Dmitry Konovalov'
-    self.password = '#PWD_INSTAGRAM_BROWSER:10:1630949284:AfxQAART9MOKGTwWIDUXUQqCQpoUQfAg0lPQQ3E6jpR1hJ4YOJ8eugc0t9OTW9PGmOxSmid4DXNYgl5RdgEpnJcKF6/tKiJojkL/9MOvRSLaso2aYWQu7BIY4wJQDQJ2rE2CHYITNI3+xcQU26vs'
-    self.signup_code = 'csrHnwMI' 
-
-    self.session.cookies.set("csrftoken", "4PbM3p8wOjRacwwkgoajyaaTQyVlUtHC", domain=".instagram.com")
-    #self.session.cookies.set("ig_did", "044E87C4-BF92-4BDD-B830-1C52F60CAB79", domain=".instagram.com")
-    #self.session.cookies.set("ig_nrcb", "1", domain=".instagram.com")
-    #self.session.cookies.set("mid", "YTKRgwAEAAHALoyLRbj7Bdu9CMWP", domain=".instagram.com")
-    #self.session.cookies.set("ds_user_id", "49302523346", domain=".instagram.com")
-    #self.session.cookies.set("rur", "ODN\05449302523346\0541662401186:01f7b25b1742a6e787ed4faf5edcc2d215b8d3f79187b843f1ba661a6b761e36ea29f83f", domain=".instagram.com")
-    #self.session.cookies.set("sessionid", "49302523346%3AY4ohX4Vs67sDAo%3A22", domain=".instagram.com")
-
-    self.session.headers.update({
-      'x-csrftoken': self.session.cookies['csrftoken'],
-    })
-
   def getInitialCookies(self):
     url = 'https://www.instagram.com/accounts/emailsignup/' 
     response = self.session.get(url) 
