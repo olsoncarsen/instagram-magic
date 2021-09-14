@@ -3,7 +3,7 @@ neme: Unit Tests
 on: [push, pull_request]
 
 jobs:
-	test:
+  test:
     name: test
     runs-on: ubuntu-latest
 
