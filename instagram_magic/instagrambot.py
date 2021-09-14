@@ -8,11 +8,20 @@ import datetime
 import pprint
 
 class InstagramBot:
-  def __init__(self):
+  def __init__(self, *initial_data, **kwargs):
+    for dictionary in initial_data:
+      for key in dictionary:
+       setattr(self, key, dictionary[key])	
+    for key in kwargs:
+       setattr(self, key, kwargs[key])
+
     self.session = requests.Session()
     self.session.headers.update({
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
     })
+
+  def getAllData(self):
+    return vars(self)
 
   def getInitialCookies(self):
     url = 'https://www.instagram.com/accounts/emailsignup/' 
@@ -42,7 +51,7 @@ class InstagramBot:
     data = {
       'day': 6,
       'month': 9,
-      'year': 1996,
+      'year': 1999,
     }
     response = self.session.post(url, data=data)
     return response
