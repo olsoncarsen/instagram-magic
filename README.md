@@ -1,5 +1,7 @@
 # instagram-magic
 
+[![Unit Tests](https://github.com/olsoncarsen/instagram-magic/actions/workflows/test.yml/badge.svg)](https://github.com/olsoncarsen/instagram-magic/actions/workflows/test.yml)
+
 Instagram web-api package that uses only requests (in development)
 
 ## Installation
