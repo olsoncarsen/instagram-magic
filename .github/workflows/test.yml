@@ -1,4 +1,4 @@
-neme: Unit Tests
+name: Unit Tests
 
 on: [push, pull_request]
 
