@@ -16,7 +16,7 @@ class InstagramBot:
        setattr(self, key, kwargs[key])
 
     self.session = requests.Session()
-    self.session.proxies = {'http':'socks5://127.0.0.1:9050', 'https':'socks5://127.0.0.1:9050'}
+    #self.session.proxies = {'http':'socks5://127.0.0.1:9050', 'https':'socks5://127.0.0.1:9050'}
     self.session.headers.update({
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
     })
@@ -201,44 +201,36 @@ class InstagramBot:
     response = self.session.post(url, data=data)
     return response
 
-  def uploadPost(self, photoUrl):
+  def uploadPost(self, photoUrl, caption):
     dt = datetime.datetime.now()
     upload_id = int(dt.timestamp() * 10000) 
+    self.setClaimHeader()
+
     url='https://i.instagram.com/rupload_igphoto/fb_uploader_'+str(upload_id)
 
-    profile_pic = open(photoUrl, 'rb').read()
+    profile_pic = open(photoUrl, 'rb')
 
     self.session.headers.update({
-      'Content-Length': str(len(profile_pic)),
-      'x-entity-length': str(len(profile_pic)),
+      #'Content-Length': str(len(profile_pic.read())),
+      'x-entity-length': '0',
       'x-entity-name': 'fb_uploader_'+str(upload_id),
+      'x-entity-type': 'image/jpeg',
       'offset': '0',
+      'x-instagram-ajax': 'a043e3868c2a',
+      'x-asbd-id': '198387',
+      'x-ig-app-id': self.session.cookies.get('ds_user_id', domain=".instagram.com"),
+
       'x-instagram-rupload-params': '{"media_type":1,"upload_id":"'+str(upload_id)+'","upload_media_height":1080,"upload_media_width":1080}',
     })
 
     print(str(upload_id))
-    response = self.session.post(url, data=profile_pic)
-    return response
 
-  def login(self):
-    url = 'https://www.instagram.com/accounts/login/ajax/' 
-    self.session.headers['x-ig-www-claim'] = '0'
-    data = {
-      'username': self.username, 
-      'enc_password': self.password,
-      'queryParams': '{}',
-      'optIntoOneTap': False,
-      'stopDeletionNonce': '',
-      'trustedDeviceRecords': {},
-    }
-    response = self.session.post(url, data=data)
-    self.checkClaimHeader(response)
-    self.storeAllData()
-    return response
+    response = self.session.post(url, files={"photo": profile_pic})
 
-  def configure(self, upload_id, caption):
+    print('UPLOAD RESPONSE ', response.content)
+
     url = 'https://i.instagram.com/api/v1/media/configure/'
-    
+
     self.setClaimHeader()
     self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
     self.session.headers['x-asbd-id'] = '198387'
@@ -254,13 +246,32 @@ class InstagramBot:
     data = {
       'source_type': 'library', 
       'caption': caption,
-      'upcoming_event': None,
-      'upload_id': upload_id,
-      'usertags': None,
-      'custom_accessibility_caption': None,
+      'upcoming_event': '',
+      'upload_id': str(upload_id),
+      'usertags': '',
+      'custom_accessibility_caption': '',
       'disable_comments': 0,
     }
 
     response = self.session.post(url, data=data)
     self.checkClaimHeader(response)
+
+    return response
+
+  def login(self):
+    url = 'https://www.instagram.com/accounts/login/ajax/' 
+    self.setClaimHeader()
+    self.session.headers['x-ig-www-claim'] = '0'
+    data = {
+      'username': self.username, 
+      'enc_password': self.password,
+      'queryParams': '{}',
+      'optIntoOneTap': False,
+      'stopDeletionNonce': '',
+      'trustedDeviceRecords': {},
+    }
+    response = self.session.post(url, data=data)
+    self.checkClaimHeader(response)
+    self.setClaimHeader()
+    self.storeAllData()
     return response

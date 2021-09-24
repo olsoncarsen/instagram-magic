@@ -53,7 +53,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_signup(self):
     data = {
       'email': 'iafewznzuocikcbidj@mrvpm.net',
-      'username': 'iwdfvge1284ddf',
+      'username': 'idfvge1284ddf',
       'password': '#PWD_INSTAGRAM_BROWSER:10:1631902003:AVBQADO9jab1S/eqx7yYp0uEvFbBUUXTU9uVNDvldNQCkc8HQlhDZitjr7Od7GmKRWnkjiN+mDSoJFeEiPcAunZmC7F5eqOY7wqv3ARQqzea0lO55Jd2ZTjh1rA4lD+gdiFaZBcnr5nUTHI5fjW8TQtLe17VnpL7sQ==',
       'first_name': 'Someone Else',
     }
@@ -94,17 +94,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_upload_post(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.uploadPost('/Users/dmitrygashilov/Downloads/andrey.jpg') 
+    res = bot.uploadPost('/Users/dmitrygashilov/Downloads/cat1.jpeg', 'Hello it is me, Parker') 
     print(res.content)
-    assert(1 == 1)
-
-  def test_configure(self):
-    bot = InstagramBot()
-    bot.loadFromFile()
-    res = bot.configure('16323431917301', 'it is me');
-    print(res.content)
-
-    print('RESPONSE HEADERS \n', res.headers)
-    print('BOT HEADERS \n', bot.session.headers)
-    print('status code ', res.status_code)
+    print(bot.session.headers)
     assert(1 == 1)
