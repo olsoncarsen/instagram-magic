@@ -94,7 +94,14 @@ class TestInstagramBot(unittest.TestCase):
   def test_upload_post(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.uploadPost('/Users/dmitrygashilov/Downloads/cat1.jpeg', 'Hello it is me, Parker') 
+    res = bot.uploadPost('/Users/dmitrygashilov/Downloads/dog.jpg', 'Hello it is me, Parker') 
+    print(res.content)
+    assert(1 == 1)
+
+  def test_configure(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.configure('1632685489601', 'Hello it is me, Parker') 
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)

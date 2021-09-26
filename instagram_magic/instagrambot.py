@@ -1,7 +1,10 @@
 import requests
 import json
+from PIL import Image
 from requests_toolbelt import MultipartEncoder
 import os
+import io 
+import sys
 import random, string
 import base64
 import datetime
@@ -18,7 +21,7 @@ class InstagramBot:
     self.session = requests.Session()
     #self.session.proxies = {'http':'socks5://127.0.0.1:9050', 'https':'socks5://127.0.0.1:9050'}
     self.session.headers.update({
-      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
+      'user-agent': 'Mozilla/5.0 (Linux; Android 8.1.0; motorola one Build/OPKS28.63-18-3; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 Instagram 72.0.0.21.98 Android (27/8.1.0; 320dpi; 720x1362; motorola; motorola one; deen_sprout; qcom; pt_BR; 132081645)',
     })
 
   def checkClaimHeader(self, response):
@@ -203,16 +206,20 @@ class InstagramBot:
 
   def uploadPost(self, photoUrl, caption):
     dt = datetime.datetime.now()
-    upload_id = int(dt.timestamp() * 10000) 
+    upload_id = int(dt.timestamp() * 1000) 
     self.setClaimHeader()
 
     url='https://i.instagram.com/rupload_igphoto/fb_uploader_'+str(upload_id)
 
-    profile_pic = open(photoUrl, 'rb')
+    buffer = io.BytesIO()
+    img = Image.open(photoUrl)
+    img = img.resize((1080, 1080), Image.NEAREST)
+    format = "JPEG"
+    img.save(buffer, format)
 
     self.session.headers.update({
-      #'Content-Length': str(len(profile_pic.read())),
-      'x-entity-length': '0',
+      'content-length': str(len(buffer.getvalue())),
+      'x-entity-length': str(len(buffer.getvalue())),
       'x-entity-name': 'fb_uploader_'+str(upload_id),
       'x-entity-type': 'image/jpeg',
       'offset': '0',
@@ -223,25 +230,22 @@ class InstagramBot:
       'x-instagram-rupload-params': '{"media_type":1,"upload_id":"'+str(upload_id)+'","upload_media_height":1080,"upload_media_width":1080}',
     })
 
-    print(str(upload_id))
 
-    response = self.session.post(url, files={"photo": profile_pic})
-
+    response = self.session.post(url, data=buffer.getvalue())
     print('UPLOAD RESPONSE ', response.content)
+    return response
 
+  def configure(self, upload_id, caption):
     url = 'https://i.instagram.com/api/v1/media/configure/'
 
     self.setClaimHeader()
     self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
-    self.session.headers['x-asbd-id'] = '198387'
     self.session.headers['accept-encoding'] = 'gzip, deflate, br'
     self.session.headers['content-type'] = 'application/x-www-form-urlencoded'
-    self.session.headers['x-instagram-ajax'] = 'a043e3868c2a'
     self.session.headers['x-requested-with'] =  'XMLHttpRequest'
     self.session.headers['set-fetch-dest'] = 'empty'
     self.session.headers['sec-fetch-mode'] = 'cors'
     self.session.headers['sec-fetch-site'] = 'same-site'
-    self.session.headers['content-length'] = '145' 
 
     data = {
       'source_type': 'library', 
@@ -255,7 +259,9 @@ class InstagramBot:
 
     response = self.session.post(url, data=data)
     self.checkClaimHeader(response)
-
+    file = open('output.html', "wb")
+    file.write(response.content)
+    file.close()
     return response
 
   def login(self):
