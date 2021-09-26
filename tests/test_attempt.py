@@ -105,3 +105,51 @@ class TestInstagramBot(unittest.TestCase):
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
+
+  def test_configure_to_story(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.configure_to_story('1632689507987', '') 
+    print(res.content)
+    print(bot.session.headers)
+    assert(1 == 1)
+
+  def test_like(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.like('2653539106451643407') 
+    print(res.content)
+    print(bot.session.headers)
+    assert(1 == 1)
+
+  def test_unlike(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.unlike('2653539106451643407') 
+    print(res.content)
+    print(bot.session.headers)
+    assert(1 == 1)
+
+  def test_comment(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.comment('2671480161700016831', 'it is my new comment!') 
+    print(res.content)
+    print(bot.session.headers)
+    assert(1 == 1)
+
+  def test_follow(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.follow('31356058676') 
+    print(res.content)
+    print(bot.session.headers)
+    assert(1 == 1)
+
+  def test_unfollow(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.unfollow('31356058676') 
+    print(res.content)
+    print(bot.session.headers)
+    assert(1 == 1)

@@ -259,9 +259,27 @@ class InstagramBot:
 
     response = self.session.post(url, data=data)
     self.checkClaimHeader(response)
-    file = open('output.html', "wb")
-    file.write(response.content)
-    file.close()
+    return response
+
+  def configure_to_story(self, upload_id, caption):
+    url = 'https://www.instagram.com/create/configure_to_story/'
+
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    self.session.headers['accept-encoding'] = 'gzip, deflate, br'
+    self.session.headers['content-type'] = 'application/x-www-form-urlencoded'
+    self.session.headers['x-requested-with'] =  'XMLHttpRequest'
+    self.session.headers['set-fetch-dest'] = 'empty'
+    self.session.headers['sec-fetch-mode'] = 'cors'
+    self.session.headers['sec-fetch-site'] = 'same-site'
+
+    data = {
+      'upload_id': str(upload_id),
+      'caption': str(caption),
+    }
+
+    response = self.session.post(url, data=data)
+    self.checkClaimHeader(response)
     return response
 
   def login(self):
@@ -280,4 +298,43 @@ class InstagramBot:
     self.checkClaimHeader(response)
     self.setClaimHeader()
     self.storeAllData()
+    return response
+
+  def like(self, post_id):
+    url = f"https://www.instagram.com/web/likes/{post_id}/like/"
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    response = self.session.post(url)
+    return response
+
+  def unlike(self, post_id):
+    url = f"https://www.instagram.com/web/likes/{post_id}/unlike/"
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    response = self.session.post(url)
+    return response
+
+  def comment(self, post_id, comment_text, reply_id=''):
+    url = f"https://www.instagram.com/web/comments/{post_id}/add/"
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    data = {
+      'comment_text': comment_text,
+      'replied_to_comment_id': reply_id,
+    }
+    response = self.session.post(url, data=data)
+    return response
+
+  def follow(self, user_id):
+    url = f"https://www.instagram.com/web/friendships/{user_id}/follow/"
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    response = self.session.post(url)
+    return response
+
+  def unfollow(self, user_id):
+    url = f"https://www.instagram.com/web/friendships/{user_id}/unfollow/"
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    response = self.session.post(url)
     return response

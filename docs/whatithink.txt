@@ -205,3 +205,31 @@ URL:
 DATA: 
      
 -------------------------------------------------------------------------------------
+
+URL:
+  https://www.instagram.com/web/likes/2669993045614811582/like/
+   
+  {status: "ok"}
+-------------------------------------------------------------------------------------
+URL:
+  https://www.instagram.com/web/likes/2653539106451643407/unlike/
+-------------------------------------------------------------------------------------
+URL:
+  https://www.instagram.com/web/comments/2671480161700016831/add/
+  {"id":"17975827045427142","from":{"id":"49728075643","username":"asdfforme1254","full_name":"Steve Jobs","profile_picture":"https://scontent-arn2-1.cdninstagram.com/v/t51.2885-19/s150x150/243062595_117625293981232_8089668929684791521_n.jpg?_nc_ht=scontent-arn2-1.cdninstagram.com\\u0026_nc_ohc=eMu9lvAZrqMAX9WHD4k\\u0026edm=AOLdatgBAAAA\\u0026ccb=7-4\\u0026oh=8d9e0e78b86b20f86889064c3a7f693f\\u0026oe=6158B3E2\\u0026_nc_sid=ff5a09"},"text":"it is my new comment!","created_time":1632689123,"status":"ok"} -------------------------------------------------------------------------------------
+URL:
+    https://www.instagram.com/create/configure_to_story/
+    Request Method: POST
+
+    upload_id: 1632689254371
+    caption: 
+
+    media: {taken_at: 1632689256, pk: "2671513574758895185", id: "2671513574758895185_49728075643",…}
+    status: "ok"
+
+-------------------------------------------------------------------------------------
+URL:
+  https://www.instagram.com/web/friendships/31356058676/follow/
+
+  result: "following"
+  status: "ok"
