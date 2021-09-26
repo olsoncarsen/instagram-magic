@@ -4,6 +4,17 @@
 
 Instagram web-api package that uses only requests (in development)
 
+## Features
+
+- [x] Registration
+- [x] Log in 
+- [x] Like/unlike
+- [x] Follow/unfollow 
+- [x] Upload stories 
+- [ ] Search 
+- [ ] Get users posts 
+- [ ] Direct (chat) 
+
 ## Installation
 
 ```bash
