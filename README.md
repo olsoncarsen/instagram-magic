@@ -10,6 +10,7 @@ Instagram web-api package that uses only requests (in development)
 - [x] Log in 
 - [x] Like/unlike
 - [x] Follow/unfollow 
+- [x] Upload comment
 - [x] Upload stories 
 - [x] Upload posts 
 - [x] Search 
