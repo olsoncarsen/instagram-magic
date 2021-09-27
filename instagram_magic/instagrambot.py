@@ -338,3 +338,29 @@ class InstagramBot:
     self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
     response = self.session.post(url)
     return response
+
+  def recentSearches(self):
+    url = "https://www.instagram.com/web/search/recent_searches/"
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    self.session.headers['x-requested-with'] =  'XMLHttpRequest'
+    response = self.session.get(url)
+    return response
+
+  def search(self, query):
+    rank_token = 0.8187201068442573 
+    url = f"https://www.instagram.com/web/search/topsearch/?context=blended&query={query}&rank_token={rank_token}&include_reel=true"
+
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    self.session.headers['x-requested-with'] =  'XMLHttpRequest'
+
+    data = {
+      'context': 'blended',
+      'query': str(query),
+      'rank_token': rank_token,
+      'include_reel': 'true',
+    }
+
+    response = self.session.get(url, data=data)
+    return response

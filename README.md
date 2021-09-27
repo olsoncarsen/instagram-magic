@@ -12,7 +12,7 @@ Instagram web-api package that uses only requests (in development)
 - [x] Follow/unfollow 
 - [x] Upload stories 
 - [x] Upload posts 
-- [ ] Search 
+- [x] Search 
 - [ ] Get users posts 
 - [ ] Direct (chat) 
 

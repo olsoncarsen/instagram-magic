@@ -233,3 +233,8 @@ URL:
 
   result: "following"
   status: "ok"
+-------------------------------------------------------------------------------------
+URL:
+  https://www.instagram.com/web/search/recent_searches/
+   recent: [{client_time: 1632689697,…}]
+   status: "ok"

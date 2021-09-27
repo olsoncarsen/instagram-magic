@@ -153,3 +153,19 @@ class TestInstagramBot(unittest.TestCase):
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
+
+  def test_recent_searches(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.recentSearches() 
+    print(res.content)
+    print(bot.session.headers)
+    assert(1 == 1)
+
+  def test_search(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.search('hello') 
+    print(res.content)
+    print(res.status_code)
+    assert(1 == 1)
