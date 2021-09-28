@@ -375,6 +375,37 @@ class InstagramBot:
     response = self.session.get(url)
     return response
 
+  def getPostInfo(self, shortcode):
+    url = f"https://www.instagram.com/p/{shortcode}/?__a=1"
+
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    self.session.headers['x-requested-with'] =  'XMLHttpRequest'
+
+    response = self.session.get(url)
+    return response
+
+  def removePost(self, post_id):
+    url = f"https://www.instagram.com/create/{post_id}/delete/"
+
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    self.session.headers['x-requested-with'] =  'XMLHttpRequest'
+
+    response = self.session.post(url)
+    return response
+
+  # redirects to request with html code response
+  def getPostLikes(self, shortcode):
+    url = f"https://www.instagram.com/p/{shortcode}/liked_by/?__a=1"
+
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    self.session.headers['x-requested-with'] =  'XMLHttpRequest'
+
+    response = self.session.get(url)
+    return response
+
   def getUserFollowers(self, user_id, count, max_id):
     url = f"https://i.instagram.com/api/v1/friendships/{user_id}/followers/?count={count}&max_id={max_id}&search_surface=follow_list_page"
 
@@ -384,3 +415,14 @@ class InstagramBot:
 
     response = self.session.get(url)
     return response
+
+  def inbox(self):
+    url = "https://i.instagram.com/api/v1/news/inbox/"
+
+    self.setClaimHeader()
+    self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
+    self.session.headers['x-requested-with'] =  'XMLHttpRequest'
+
+    response = self.session.post(url)
+    return response
+    

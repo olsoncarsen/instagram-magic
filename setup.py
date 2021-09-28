@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="instagram-magic",
-    version="0.0.11",
+    version="0.0.12",
     author="olsoncarsen",
     author_email="gashilovdmitry@yandex.ru",
     description="If you want to learn some tricks, you are welcome",

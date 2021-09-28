@@ -1,3 +1,4 @@
 requests
 pytest
 requests-toolbelt
+Pillow

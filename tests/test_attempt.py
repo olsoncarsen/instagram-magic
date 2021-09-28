@@ -178,6 +178,23 @@ class TestInstagramBot(unittest.TestCase):
     print(res.status_code)
     assert(1 == 1)
 
+  def test_get_post_info(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.getPostInfo('CNPvSHBDRBT') 
+    print(res.content)
+    print(res.status_code)
+    assert(1 == 1)
+
+  #redirects to request with html response
+  def test_get_post_likes(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.getPostLikes('CNPvSHBDRBT') 
+    print(res.content)
+    print(res.status_code)
+    assert(1 == 1)
+
   def test_get_user_followers(self):
     bot = InstagramBot()
     bot.loadFromFile()
@@ -185,3 +202,20 @@ class TestInstagramBot(unittest.TestCase):
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
+
+  def test_inbox(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.inbox() 
+    print(res.content)
+    print(res.status_code)
+    assert(1 == 1)
+
+  def test_remove_post(self):
+    bot = InstagramBot()
+    bot.loadFromFile()
+    res = bot.removePost('2669993045614811582') 
+    print(res.content)
+    print(res.status_code)
+    assert(1 == 1)
+    
