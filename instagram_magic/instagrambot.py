@@ -38,7 +38,7 @@ class InstagramBot:
   def getAllData(self):
     return vars(self)
 
-  def storeAllData(self):
+  def storeAllData(self, file_path=''):
     bot_data = self.getAllData()
     cookies = [
       {'name': c.name, 'value': c.value, 'domain': c.domain, 'path': c.path}
@@ -48,11 +48,18 @@ class InstagramBot:
     del bot_data['session']
 
     encoded_bot_data = json.dumps([cookies, bot_data])
-    with open('output.json', 'w') as out:
-      out.write(encoded_bot_data)
+
+    if file_path:
+      out = open(file_path, 'w')
+    else: 
+      out = open('output.json', 'w')
+    out.write(encoded_bot_data)
      
-  def loadFromFile(self):
-    fo = open("output.json", "r+")
+  def loadFromFile(self, file_path=''):
+    if file_path:
+      fo = open(file_path, "r+")
+    else:  
+      fo = open("output.json", "r+")
     encoded_data = fo.read()
     decoded_data = json.loads(encoded_data)
     self.__init__(decoded_data[1])
@@ -407,7 +414,8 @@ class InstagramBot:
     return response
 
   def getUserFollowers(self, user_id, count, max_id):
-    url = f"https://i.instagram.com/api/v1/friendships/{user_id}/followers/?count={count}&max_id={max_id}&search_surface=follow_list_page"
+    #url = f"https://i.instagram.com/api/v1/friendships/{user_id}/followers/?count={count}&max_id={max_id}&search_surface=follow_list_page"
+    url = f"https://i.instagram.com/api/v1/friendships/{user_id}/followers/?count={count}&search_surface=follow_list_page"
 
     self.setClaimHeader()
     self.session.headers['x-ig-app-id'] = self.session.cookies.get('ds_user_id', domain=".instagram.com")
@@ -425,4 +433,3 @@ class InstagramBot:
 
     response = self.session.post(url)
     return response
-    

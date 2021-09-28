@@ -23,6 +23,9 @@ Instagram web-api package that uses only requests (in development)
 ```bash
 git clone https://gitnub.com/olsoncarsen/instagrambot
 python3 -m pip install -r requirements.txt
+
+# or install package from testpypi (versions can be different from github and tespypi) 
+python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps instagram_magic --upgrade
 ```
 
 ## Run tests 

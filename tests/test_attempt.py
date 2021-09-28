@@ -198,7 +198,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_get_user_followers(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.getUserFollowers('31356058676', 12, 12) 
+    res = bot.getUserFollowers('18900337', 12, 12) 
     print(res.content)
     print(res.status_code)
     assert(1 == 1)

@@ -2,6 +2,10 @@
 
 output.json
 asdfforme1254
+examples/yourfilename.json
+examples/sample_image.jpg
+examples/init.log
+examples/output.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
