@@ -71,15 +71,17 @@ class InstagramBot:
     })
        
   def getInitialCookies(self):
-    url = 'https://www.instagram.com/accounts/emailsignup/' 
+    url = 'https://www.instagram.com/accounts/login/?__a=1' 
     response = self.session.get(url) 
 
     self.session.headers.update({
       'x-csrftoken': self.session.cookies.get('csrftoken', domain=".instagram.com"),
     })
+
     print('TOKEN ', self.session.cookies.get('csrftoken', domain=".instagram.com"))
     print('MY SESSION COOKIES AT getinitialcookies ', self.session.cookies);
     print('my session headers ', self.session.headers)
+
     return response
 
   def attempt(self):
@@ -93,6 +95,7 @@ class InstagramBot:
       'opt_into_one_tap': False,
       'seamless_login_enabled': '1',
     }
+
     print('TOKEN ', self.session.cookies.get('csrftoken', domain=".instagram.com"))
     response = self.session.post(url, data=data)
     print(response.content)

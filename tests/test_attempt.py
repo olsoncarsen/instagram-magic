@@ -18,8 +18,8 @@ class TestInstagramBot(unittest.TestCase):
     res = bot.getInitialCookies()
     assert(bot.session.cookies['csrftoken'])
 
-  def test_attempt(self):
-    bot = InstagramBot(data)
+  def test_attempt1(self):
+    bot = InstagramBot()
     bot.loadFromFile()
     bot.getInitialCookies()
     res = bot.attempt()
