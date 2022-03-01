@@ -1,9 +1,9 @@
-from instagram_magic.instagrambot import InstagramBot 
+from instagram_magic.instagrambot import InstagramBot
 import json
 
 # make request
 # store data in apropriate way
-# that's all 
+# that's all
 
 if __name__ == '__main__':
   data = {
@@ -14,7 +14,7 @@ if __name__ == '__main__':
   }
 
   bot = InstagramBot(data)
-  res = bot.signUp() 
+  res = bot.signUp()
 
   print(res.headers)
   print(res.cookies)

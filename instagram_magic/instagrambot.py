@@ -3,7 +3,7 @@ import json
 from PIL import Image
 from requests_toolbelt import MultipartEncoder
 import os
-import io 
+import io
 import sys
 import random, string
 import base64
@@ -15,13 +15,15 @@ class InstagramBot:
     self.use_proxy=False
     for dictionary in initial_data:
       for key in dictionary:
-       setattr(self, key, dictionary[key])	
+       setattr(self, key, dictionary[key])
     for key in kwargs:
        setattr(self, key, kwargs[key])
 
     self.session = requests.Session()
+
     if self.use_proxy:
       self.session.proxies = {'http':'socks5://127.0.0.1:9050', 'https':'socks5://127.0.0.1:9050'}
+
     self.session.headers.update({
       'user-agent': 'Mozilla/5.0 (Linux; Android 8.1.0; motorola one Build/OPKS28.63-18-3; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 Instagram 72.0.0.21.98 Android (27/8.1.0; 320dpi; 720x1362; motorola; motorola one; deen_sprout; qcom; pt_BR; 132081645)',
     })
@@ -40,7 +42,7 @@ class InstagramBot:
   def getAllData(self):
     return vars(self)
 
-  def storeAllData(self, file_path=''):
+  def storeToFile(self, file_path=''):
     bot_data = self.getAllData()
     cookies = [
       {'name': c.name, 'value': c.value, 'domain': c.domain, 'path': c.path}
@@ -53,28 +55,28 @@ class InstagramBot:
 
     if file_path:
       out = open(file_path, 'w')
-    else: 
+    else:
       out = open('output.json', 'w')
     out.write(encoded_bot_data)
-     
+
   def loadFromFile(self, file_path=''):
     if file_path:
       fo = open(file_path, "r+")
-    else:  
+    else:
       fo = open("output.json", "r+")
     encoded_data = fo.read()
     decoded_data = json.loads(encoded_data)
     self.__init__(decoded_data[1])
     for cookie in decoded_data[0]:
-      self.session.cookies.set(cookie['name'], cookie['value'], domain=cookie['domain'])      
+      self.session.cookies.set(cookie['name'], cookie['value'], domain=cookie['domain'])
 
     self.session.headers.update({
       'x-csrftoken': self.session.cookies.get('csrftoken', domain=".instagram.com")
     })
-       
+
   def getInitialCookies(self):
-    url = 'https://www.instagram.com/accounts/login/?__a=1' 
-    response = self.session.get(url) 
+    url = 'https://www.instagram.com/accounts/login/?__a=1'
+    response = self.session.get(url)
 
     self.session.headers.update({
       'x-csrftoken': self.session.cookies.get('csrftoken', domain=".instagram.com"),
@@ -87,7 +89,7 @@ class InstagramBot:
     return response
 
   def attempt(self):
-    url = 'https://www.instagram.com/accounts/web_create_ajax/attempt/' 
+    url = 'https://www.instagram.com/accounts/web_create_ajax/attempt/'
     data = {
       'email': self.email,
       'enc_password': self.password,
@@ -104,7 +106,7 @@ class InstagramBot:
     return response
 
   def checkAgeAbility(self):
-    url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/' 
+    url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/'
     data = {
       'day': 6,
       'month': 9,
@@ -115,7 +117,7 @@ class InstagramBot:
     return response
 
   def sendVerifyEmail(self):
-    url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/' 
+    url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/'
     data = {
       'device_id': self.session.cookies.get('mid', domain=".instagram.com"),
       'email': self.email,
@@ -126,7 +128,7 @@ class InstagramBot:
     return response
 
   def checkConfirmationCode(self, confirmation_code):
-    url = 'https://i.instagram.com/api/v1/accounts/check_confirmation_code/' 
+    url = 'https://i.instagram.com/api/v1/accounts/check_confirmation_code/'
 
     data = {
       'code': confirmation_code,
@@ -141,7 +143,7 @@ class InstagramBot:
     print('CODE DATA ---> ', data);
     print('TOKEN ', self.session.cookies.get('csrftoken', domain=".instagram.com"))
     print('SIGNUP_CODE!!! ', data['signup_code'])
-    print(response.content) 
+    print(response.content)
     self.signup_code = data['signup_code']
 
     return response
@@ -196,18 +198,18 @@ class InstagramBot:
     m = MultipartEncoder(fields=fields, boundary=boundary)
     self.session.headers.update({
       'Content-Disposition': 'form-data; name="profile_pic"; filename="cat1.jpeg"',
-      'Content-Type': m.content_type 
+      'Content-Type': m.content_type
     })
 
-    response = self.session.post(url, data=m) 
+    response = self.session.post(url, data=m)
     self.checkClaimHeader(response)
     print(self.session.cookies)
     return response
 
   def editProfile(self, bio_text):
-    url = 'https://www.instagram.com/accounts/edit/' 
+    url = 'https://www.instagram.com/accounts/edit/'
     data = {
-      'first_name': self.first_name, 
+      'first_name': self.first_name,
       'email': self.email,
       'username': self.username,
       'phone_number': '',
@@ -220,7 +222,7 @@ class InstagramBot:
 
   def uploadPost(self, photoUrl, caption):
     dt = datetime.datetime.now()
-    upload_id = int(dt.timestamp() * 1000) 
+    upload_id = int(dt.timestamp() * 1000)
     self.setClaimHeader()
 
     url='https://i.instagram.com/rupload_igphoto/fb_uploader_'+str(upload_id)
@@ -262,7 +264,7 @@ class InstagramBot:
     self.session.headers['sec-fetch-site'] = 'same-site'
 
     data = {
-      'source_type': 'library', 
+      'source_type': 'library',
       'caption': caption,
       'upcoming_event': '',
       'upload_id': str(upload_id),
@@ -297,11 +299,11 @@ class InstagramBot:
     return response
 
   def login(self):
-    url = 'https://www.instagram.com/accounts/login/ajax/' 
+    url = 'https://www.instagram.com/accounts/login/ajax/'
     self.setClaimHeader()
     self.session.headers['x-ig-www-claim'] = '0'
     data = {
-      'username': self.username, 
+      'username': self.username,
       'enc_password': self.password,
       'queryParams': '{}',
       'optIntoOneTap': False,
@@ -311,7 +313,7 @@ class InstagramBot:
     response = self.session.post(url, data=data)
     self.checkClaimHeader(response)
     self.setClaimHeader()
-    self.storeAllData()
+    self.storeToFile()
     return response
 
   def like(self, post_id):
@@ -362,7 +364,7 @@ class InstagramBot:
     return response
 
   def search(self, query):
-    rank_token = 0.8187201068442573 
+    rank_token = 0.8187201068442573
     url = f"https://www.instagram.com/web/search/topsearch/?context=blended&query={query}&rank_token={rank_token}&include_reel=true"
 
     self.setClaimHeader()

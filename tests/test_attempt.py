@@ -1,9 +1,9 @@
 import logging
 import unittest
 import json
-from instagram_magic.instagrambot import InstagramBot 
+from instagram_magic.instagrambot import InstagramBot
 
-class TestInstagramBot(unittest.TestCase): 
+class TestInstagramBot(unittest.TestCase):
   def test_get_all_data_at_start(self):
     bot = InstagramBot()
     res = bot.getAllData()
@@ -49,7 +49,7 @@ class TestInstagramBot(unittest.TestCase):
     print('content', res.content)
     bot.storeAllData()
     assert(1 == 1)
-    
+
   def test_signup(self):
     data = {
       'email': 'iafewznzuocikcbidj@mrvpm.net',
@@ -59,7 +59,7 @@ class TestInstagramBot(unittest.TestCase):
     }
 
     bot = InstagramBot(data)
-    res = bot.signUp() 
+    res = bot.signUp()
     bot.storeAllData()
 
   def test_ig_sso_users(self):
@@ -94,14 +94,14 @@ class TestInstagramBot(unittest.TestCase):
   def test_upload_post(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.uploadPost('/Users/dmitrygashilov/Downloads/dog.jpg', 'Hello it is me, Parker') 
+    res = bot.uploadPost('/Users/dmitrygashilov/Downloads/dog.jpg', 'Hello it is me, Parker')
     print(res.content)
     assert(1 == 1)
 
   def test_configure(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.configure('1632685489601', 'Hello it is me, Parker') 
+    res = bot.configure('1632685489601', 'Hello it is me, Parker')
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -109,7 +109,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_configure_to_story(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.configure_to_story('1632689507987', '') 
+    res = bot.configure_to_story('1632689507987', '')
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -117,7 +117,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_like(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.like('2653539106451643407') 
+    res = bot.like('2653539106451643407')
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -125,7 +125,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_unlike(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.unlike('2653539106451643407') 
+    res = bot.unlike('2653539106451643407')
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -133,7 +133,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_comment(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.comment('2671480161700016831', 'it is my new comment!') 
+    res = bot.comment('2671480161700016831', 'it is my new comment!')
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -141,7 +141,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_follow(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.follow('31356058676') 
+    res = bot.follow('31356058676')
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -149,7 +149,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_unfollow(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.unfollow('31356058676') 
+    res = bot.unfollow('31356058676')
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -157,7 +157,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_recent_searches(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.recentSearches() 
+    res = bot.recentSearches()
     print(res.content)
     print(bot.session.headers)
     assert(1 == 1)
@@ -165,7 +165,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_search(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.search('hello') 
+    res = bot.search('hello')
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
@@ -173,7 +173,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_get_user_info(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.getUserInfo('olsoncarsen') 
+    res = bot.getUserInfo('olsoncarsen')
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
@@ -181,7 +181,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_get_post_info(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.getPostInfo('CNPvSHBDRBT') 
+    res = bot.getPostInfo('CNPvSHBDRBT')
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
@@ -190,7 +190,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_get_post_likes(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.getPostLikes('CNPvSHBDRBT') 
+    res = bot.getPostLikes('CNPvSHBDRBT')
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
@@ -198,7 +198,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_get_user_followers(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.getUserFollowers('18900337', 12, 12) 
+    res = bot.getUserFollowers('18900337', 12, 12)
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
@@ -206,7 +206,7 @@ class TestInstagramBot(unittest.TestCase):
   def test_inbox(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.inbox() 
+    res = bot.inbox()
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
@@ -214,8 +214,8 @@ class TestInstagramBot(unittest.TestCase):
   def test_remove_post(self):
     bot = InstagramBot()
     bot.loadFromFile()
-    res = bot.removePost('2669993045614811582') 
+    res = bot.removePost('2669993045614811582')
     print(res.content)
     print(res.status_code)
     assert(1 == 1)
-    
+
