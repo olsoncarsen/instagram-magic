@@ -19,4 +19,4 @@ jobs:
     - name: Install Dependencies
       run: pip install -r requirements.txt 
     - name: Run Pytest
-      run: python3 -m pytest
+      run: python3 -m pytest tests/test_instagram_auth.py
