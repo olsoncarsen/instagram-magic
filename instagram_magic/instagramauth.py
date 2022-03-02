@@ -22,6 +22,11 @@ class InstagramAuth:
       'user-agent': 'Mozilla/5.0 (Linux; Android 8.1.0; motorola one Build/OPKS28.63-18-3; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 Instagram 72.0.0.21.98 Android (27/8.1.0; 320dpi; 720x1362; motorola; motorola one; deen_sprout; qcom; pt_BR; 132081645)'
     })
 
+  def _checkClaimHeader(self, response):
+    if 'x-ig-set-www-claim' in response.headers:
+      print('claim is setted!')
+      self.claim = response.headers['x-ig-set-www-claim']
+
   def getInitialCookies(self):
     response = self.session.get('https://www.instagram.com/accounts/login/?__a=1')
     self.session.headers.update({
@@ -52,6 +57,43 @@ class InstagramAuth:
     else:
         raise Exception('status is not ok, something gone wrong')
 
+  def sendVerifyEmail(self):
+    url = 'https://i.instagram.com/api/v1/accounts/send_verify_email/'
+    data = {
+      'device_id': self.session.cookies.get('mid', domain=".instagram.com"),
+      'email': self.email,
+    }
+    response = self.session.post(url, data=data)
+    decoded_response = response.json()
+    print(decoded_response)
+    if decoded_response['status'] == 'ok':
+        if 'errors' in decoded_response:
+            raise Exception(decoded_response['errors'])
+        elif 'email_sent' in decoded_response:
+            return decoded_response['email_sent']
+    else:
+        if 'errors' in decoded_response:
+            raise Exception(decoded_response['errors'])
+        else:
+            raise Exception('status is not okay without errors, probably its a bug')
+
+  def checkConfirmationCode(self, confirmation_code):
+    url = 'https://i.instagram.com/api/v1/accounts/check_confirmation_code/'
+
+    data = {
+      'code': confirmation_code,
+      'device_id': self.session.cookies.get('mid', domain=".instagram.com"),
+      'email': self.email,
+    }
+
+    response = self.session.post(url, data)
+    self._checkClaimHeader(response)
+
+    data = response.json()
+    self.signup_code = data['signup_code']
+
+    return response
+
   def checkAgeAbility(self):
     url = 'https://www.instagram.com/web/consent/check_age_eligibility/'
     data = {
@@ -63,7 +105,7 @@ class InstagramAuth:
     try:
         decoded_response = response.json()
     except:
-        print(response)
         return response
 
     return response
+

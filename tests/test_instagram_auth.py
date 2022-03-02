@@ -30,3 +30,15 @@ class TestInstagramAuth(unittest.TestCase):
     with pytest.raises(Exception):
         auth_manager = InstagramAuth(config)
         auth_manager.attempt()
+
+  def test_send_verify_email(self):
+    # random email, works even with already registered emails
+    config = {
+        'email': 'sdkjlkdsfj@sdkjdfls.ru',
+        'password': '#PWD_INSTAGRAM_BROWSER:10:1646157249:AedQAGcxmpyDHo8T4t8Ibiiz9muYzrT5KDxoinjO8ec+UslgJGwN/KsLrFycODgwa17+dU7a146S8pNbg+Gp6Xk2Vvan6ky35vJ4ALlGRC76XnxeKYzPCqdPBQUFBp4tlGCjAms76CcLRYVUZ0nqte0=',
+        'username': 'sldkjfsd',
+        'first_name': 'sdlkjsjkdf ldkjfds'
+    }
+    auth_manager = InstagramAuth(config)
+    auth_manager.attempt()
+    assert(auth_manager.sendVerifyEmail() == True)
