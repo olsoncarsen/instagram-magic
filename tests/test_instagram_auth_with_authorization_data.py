@@ -3,7 +3,7 @@ import unittest
 import json
 from instagram_magic.instagramauth import InstagramAuth
 
-# These tests don't need authorization data to succeed
+# These tests need authorization data to succeed
 class TestInstagramAuth(unittest.TestCase):
   def test_get_initial_cookies(self):
     auth_manager = InstagramAuth()

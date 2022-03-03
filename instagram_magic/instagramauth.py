@@ -89,10 +89,19 @@ class InstagramAuth:
     response = self.session.post(url, data)
     self._checkClaimHeader(response)
 
-    data = response.json()
+    decoded_response = response.json()
     self.signup_code = data['signup_code']
 
-    return response
+    if decoded_response['status'] == 'ok':
+        if 'errors' in decoded_response:
+            raise Exception(decoded_response['errors'])
+        else:
+            return True
+    else:
+        if 'errors' in decoded_response:
+            raise Exception(decoded_response['errors'])
+        else:
+            raise Exception('status is not okay without errors, probably its a bug')
 
   def checkAgeAbility(self):
     url = 'https://www.instagram.com/web/consent/check_age_eligibility/'
