@@ -1,5 +1,6 @@
 import requests
 import json
+import pprint
 
 class InstagramAuth:
   def __init__(self, *initial_data, **kwargs):
@@ -26,6 +27,10 @@ class InstagramAuth:
     if 'x-ig-set-www-claim' in response.headers:
       print('claim is setted!')
       self.claim = response.headers['x-ig-set-www-claim']
+
+  def _getAllData(self):
+      pprint.pprint(vars(self))
+      return vars(self)
 
   def getInitialCookies(self):
     response = self.session.get('https://www.instagram.com/accounts/login/?__a=1')
